@@ -336,6 +336,39 @@
 <footer>Hogan's Dynasty Deep Dive &nbsp;·&nbsp; Private League Podcast &nbsp;·&nbsp; The Modern Era of Dynasty Warfare</footer>
 
 <script>
+
+  function togglePlayed(n) {
+    const key = 'played-ep-' + n;
+    const isPlayed = localStorage.getItem(key) === 'true';
+    const newState = !isPlayed;
+    localStorage.setItem(key, newState);
+    updatePlayedUI(n, newState);
+  }
+
+  function updatePlayedUI(n, isPlayed) {
+    const btn = document.getElementById('played-' + n);
+    const check = document.getElementById('check-' + n);
+    const label = document.getElementById('played-label-' + n);
+    if (!btn) return;
+    if (isPlayed) {
+      btn.classList.add('played');
+      check.textContent = '✓';
+      label.textContent = 'Played';
+    } else {
+      btn.classList.remove('played');
+      check.textContent = '';
+      label.textContent = 'Mark as Played';
+    }
+  }
+
+  // On load restore played state
+  window.addEventListener('DOMContentLoaded', () => {
+    [1, 2].forEach(n => {
+      const isPlayed = localStorage.getItem('played-ep-' + n) === 'true';
+      updatePlayedUI(n, isPlayed);
+    });
+  });
+
   function togglePlay(btn, audioId) {
     const audio = document.getElementById(audioId);
     document.querySelectorAll('audio').forEach(a => {
