@@ -167,20 +167,9 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      flex-wrap: wrap;
     }
     .time-display { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: 0.06em; }
-    .controls-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    /* Speed buttons */
-    .speed-btns {
-      display: flex;
-      gap: 4px;
-    }
+    .speed-btns { display: flex; gap: 4px; }
     .speed-btn {
       font-size: 10px;
       font-family: 'DM Sans', sans-serif;
@@ -195,25 +184,44 @@
       transition: color 0.15s, background 0.15s, border-color 0.15s;
       line-height: 1.4;
     }
-    .speed-btn:hover {
-      color: var(--silver);
-      background: rgba(255,255,255,0.1);
-    }
+    .speed-btn:hover { color: var(--silver); background: rgba(255,255,255,0.1); }
     .speed-btn.active {
       color: var(--red-bright);
       background: rgba(192,20,26,0.15);
       border-color: rgba(192,20,26,0.4);
     }
-
-    .download-btn {
-      font-size: 11px; color: var(--silver-dim);
-      text-decoration: none; letter-spacing: 0.1em;
+    /* Mark as played */
+    .played-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 14px;
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      transition: color 0.2s;
-      display: flex; align-items: center; gap: 5px;
-      white-space: nowrap;
+      color: var(--muted);
+      transition: all 0.2s;
     }
-    .download-btn:hover { color: var(--silver); }
+    .played-btn:hover { border-color: rgba(255,255,255,0.25); color: var(--silver); }
+    .played-btn.played {
+      border-color: rgba(192,20,26,0.4);
+      color: var(--red-bright);
+      background: rgba(192,20,26,0.08);
+    }
+    .check-circle {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1px solid currentColor;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px;
+      flex-shrink: 0;
+    }
     .card-placeholder { opacity: 0.28; border-left-color: var(--muted); pointer-events: none; }
     footer {
       position: relative; z-index: 1;
@@ -238,6 +246,7 @@
 <main>
   <div class="section-label">All Episodes</div>
 
+  <!-- EP 01 -->
   <div class="episode-card" id="card-1">
     <div class="ep-meta">
       <span class="ep-num">EP 01</span>
@@ -258,13 +267,10 @@
           </div>
           <div class="bottom-row">
             <span class="time-display" id="time-1">0:00 / --:--</span>
-            <div class="controls-right">
-              <div class="speed-btns">
-                <button class="speed-btn active" onclick="setSpeed('audio-1', 1.0, this)">1x</button>
-                <button class="speed-btn" onclick="setSpeed('audio-1', 1.25, this)">1.25x</button>
-                <button class="speed-btn" onclick="setSpeed('audio-1', 1.5, this)">1.5x</button>
-              </div>
-              <a class="download-btn" href="https://pub-55468afb7e2c4e24b2d69bbfc7019321.r2.dev/HDL%20Deep%20Dive_Ep1_Draft%20Preview.m4a" download>↓ Download</a>
+            <div class="speed-btns">
+              <button class="speed-btn active" onclick="setSpeed('audio-1', 1.0, this)">1x</button>
+              <button class="speed-btn" onclick="setSpeed('audio-1', 1.25, this)">1.25x</button>
+              <button class="speed-btn" onclick="setSpeed('audio-1', 1.5, this)">1.5x</button>
             </div>
           </div>
         </div>
@@ -273,9 +279,13 @@
              ontimeupdate="updateProgress('audio-1','fill-1','time-1')"
              onended="resetBtn('audio-1')"></audio>
     </div>
+    <button class="played-btn" id="played-btn-1" onclick="togglePlayed(1)">
+      <span class="check-circle" id="check-1"></span>
+      <span id="played-label-1">Mark as Played</span>
+    </button>
   </div>
 
-
+  <!-- EP 02 -->
   <div class="episode-card" id="card-2">
     <div class="ep-meta">
       <span class="ep-num">EP 02</span>
@@ -295,13 +305,10 @@
           </div>
           <div class="bottom-row">
             <span class="time-display" id="time-2">0:00 / --:--</span>
-            <div class="controls-right">
-              <div class="speed-btns">
-                <button class="speed-btn active" onclick="setSpeed('audio-2', 1.0, this)">1x</button>
-                <button class="speed-btn" onclick="setSpeed('audio-2', 1.25, this)">1.25x</button>
-                <button class="speed-btn" onclick="setSpeed('audio-2', 1.5, this)">1.5x</button>
-              </div>
-              <a class="download-btn" href="https://pub-55468afb7e2c4e24b2d69bbfc7019321.r2.dev/HDL%20Deep%20Dive_Ep2_Missing%20Persons.m4a" download="HDL_Deep_Dive_Ep2_Missing_Persons.m4a">↓ Download</a>
+            <div class="speed-btns">
+              <button class="speed-btn active" onclick="setSpeed('audio-2', 1.0, this)">1x</button>
+              <button class="speed-btn" onclick="setSpeed('audio-2', 1.25, this)">1.25x</button>
+              <button class="speed-btn" onclick="setSpeed('audio-2', 1.5, this)">1.5x</button>
             </div>
           </div>
         </div>
@@ -310,8 +317,13 @@
              ontimeupdate="updateProgress('audio-2','fill-2','time-2')"
              onended="resetBtn('audio-2')"></audio>
     </div>
+    <button class="played-btn" id="played-btn-2" onclick="togglePlayed(2)">
+      <span class="check-circle" id="check-2"></span>
+      <span id="played-label-2">Mark as Played</span>
+    </button>
   </div>
 
+  <!-- PLACEHOLDER -->
   <div class="episode-card card-placeholder">
     <div class="ep-meta">
       <span class="ep-num">EP 03</span>
@@ -336,39 +348,6 @@
 <footer>Hogan's Dynasty Deep Dive &nbsp;·&nbsp; Private League Podcast &nbsp;·&nbsp; The Modern Era of Dynasty Warfare</footer>
 
 <script>
-
-  function togglePlayed(n) {
-    const key = 'played-ep-' + n;
-    const isPlayed = localStorage.getItem(key) === 'true';
-    const newState = !isPlayed;
-    localStorage.setItem(key, newState);
-    updatePlayedUI(n, newState);
-  }
-
-  function updatePlayedUI(n, isPlayed) {
-    const btn = document.getElementById('played-' + n);
-    const check = document.getElementById('check-' + n);
-    const label = document.getElementById('played-label-' + n);
-    if (!btn) return;
-    if (isPlayed) {
-      btn.classList.add('played');
-      check.textContent = '✓';
-      label.textContent = 'Played';
-    } else {
-      btn.classList.remove('played');
-      check.textContent = '';
-      label.textContent = 'Mark as Played';
-    }
-  }
-
-  // On load restore played state
-  window.addEventListener('DOMContentLoaded', () => {
-    [1, 2].forEach(n => {
-      const isPlayed = localStorage.getItem('played-ep-' + n) === 'true';
-      updatePlayedUI(n, isPlayed);
-    });
-  });
-
   function togglePlay(btn, audioId) {
     const audio = document.getElementById(audioId);
     document.querySelectorAll('audio').forEach(a => {
@@ -385,7 +364,6 @@
   function setSpeed(audioId, speed, btn) {
     const audio = document.getElementById(audioId);
     audio.playbackRate = speed;
-    // update active state — only within this card's speed buttons
     const card = btn.closest('.episode-card');
     card.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -398,6 +376,7 @@
     const fill = document.getElementById('fill-' + n);
     if (fill) fill.style.width = '0%';
   }
+
   function updateProgress(audioId, fillId, timeId) {
     const audio = document.getElementById(audioId);
     const fill  = document.getElementById(fillId);
@@ -406,18 +385,49 @@
     fill.style.width = (audio.currentTime / audio.duration * 100) + '%';
     timeEl.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
   }
+
   function seek(e, audioId, bar) {
     const audio = document.getElementById(audioId);
     if (!audio.duration) return;
     const rect = bar.getBoundingClientRect();
     audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
   }
+
   function fmt(s) {
     if (!s || isNaN(s)) return '--:--';
     const m = Math.floor(s / 60);
     const sec = Math.floor(s % 60).toString().padStart(2, '0');
     return m + ':' + sec;
   }
+
+  function togglePlayed(n) {
+    const key = 'played-ep-' + n;
+    const isPlayed = localStorage.getItem(key) === 'true';
+    localStorage.setItem(key, !isPlayed);
+    updatePlayedUI(n, !isPlayed);
+  }
+
+  function updatePlayedUI(n, isPlayed) {
+    const btn = document.getElementById('played-btn-' + n);
+    const check = document.getElementById('check-' + n);
+    const label = document.getElementById('played-label-' + n);
+    if (!btn) return;
+    if (isPlayed) {
+      btn.classList.add('played');
+      check.textContent = '✓';
+      label.textContent = 'Played';
+    } else {
+      btn.classList.remove('played');
+      check.textContent = '';
+      label.textContent = 'Mark as Played';
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    [1, 2].forEach(n => {
+      updatePlayedUI(n, localStorage.getItem('played-ep-' + n) === 'true');
+    });
+  });
 </script>
 </body>
 </html>
