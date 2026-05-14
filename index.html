@@ -377,6 +377,35 @@
 <footer>Hogan's Dynasty Deep Dive &nbsp;·&nbsp; Private League Podcast &nbsp;·&nbsp; The Modern Era of Dynasty Warfare</footer>
 
 <script>
+  // Save position every 5 seconds while playing
+  function startSavingPosition(audioId) {
+    const audio = document.getElementById(audioId);
+    audio._saveInterval = setInterval(() => {
+      if (!audio.paused && audio.currentTime > 0) {
+        const n = audioId.split('-')[1];
+        localStorage.setItem('pos-ep-' + n, audio.currentTime);
+      }
+    }, 5000);
+  }
+
+  function stopSavingPosition(audioId) {
+    const audio = document.getElementById(audioId);
+    if (audio._saveInterval) clearInterval(audio._saveInterval);
+  }
+
+  function restorePosition(audioId) {
+    const n = audioId.split('-')[1];
+    const saved = parseFloat(localStorage.getItem('pos-ep-' + n));
+    const audio = document.getElementById(audioId);
+    if (saved && saved > 0) {
+      audio.addEventListener('loadedmetadata', () => {
+        if (saved < audio.duration - 10) {
+          audio.currentTime = saved;
+        }
+      }, { once: true });
+    }
+  }
+
   function togglePlay(btn, audioId) {
     const audio = document.getElementById(audioId);
     document.querySelectorAll('audio').forEach(a => {
@@ -386,8 +415,18 @@
         if (b) b.classList.remove('playing');
       }
     });
-    if (audio.paused) { audio.play(); btn.classList.add('playing'); }
-    else              { audio.pause(); btn.classList.remove('playing'); }
+    if (audio.paused) {
+      audio.play();
+      btn.classList.add('playing');
+      startSavingPosition(audioId);
+    } else {
+      audio.pause();
+      btn.classList.remove('playing');
+      stopSavingPosition(audioId);
+      // Save position immediately on pause
+      const n = audioId.split('-')[1];
+      if (audio.currentTime > 0) localStorage.setItem('pos-ep-' + n, audio.currentTime);
+    }
   }
 
   function setSpeed(audioId, speed, btn) {
@@ -401,9 +440,12 @@
   function resetBtn(audioId) {
     const btn = document.querySelector('[onclick*="' + audioId + '"]');
     if (btn) btn.classList.remove('playing');
+    stopSavingPosition(audioId);
     const n = audioId.split('-')[1];
     const fill = document.getElementById('fill-' + n);
     if (fill) fill.style.width = '0%';
+    // Clear saved position when episode finishes
+    localStorage.removeItem('pos-ep-' + n);
   }
 
   function updateProgress(audioId, fillId, timeId) {
@@ -455,6 +497,7 @@
   window.addEventListener('DOMContentLoaded', () => {
     [1, 2, 3].forEach(n => {
       updatePlayedUI(n, localStorage.getItem('played-ep-' + n) === 'true');
+      restorePosition('audio-' + n);
     });
   });
 </script>
