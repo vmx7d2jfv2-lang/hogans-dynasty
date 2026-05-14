@@ -157,6 +157,19 @@
     }
     .play-btn:hover { background: var(--red-bright); transform: scale(1.08); box-shadow: 0 4px 24px rgba(224,26,33,0.6); }
     .play-btn svg { width: 15px; height: 15px; fill: #fff; }
+    .skip-btn {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.15s;
+      color: var(--silver-dim);
+    }
+    .skip-btn:hover { background: rgba(255,255,255,0.12); color: var(--silver); transform: scale(1.08); }
+    .skip-btn svg { width: 16px; height: 16px; fill: currentColor; }
     .play-btn .play-icon { margin-left: 2px; }
     .play-btn.playing .play-icon { display: none; }
     .play-btn:not(.playing) .pause-icon { display: none; }
@@ -267,9 +280,15 @@
     <p class="ep-desc">Episode 3 of Hogan's Dynasty Deep Dive — it's draft day, and the dynasty begins now.</p>
     <div class="player-wrap">
       <div class="player-controls">
+        <button class="skip-btn" onclick="skipBack('audio-3')" aria-label="Rewind 10 seconds">
+          <svg viewBox="0 0 24 24"><path d="M12 5V2L7 7l5 5V8c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/><text x="7.5" y="15.5" font-size="5.5" font-family="sans-serif" font-weight="bold" fill="currentColor" text-anchor="middle">10</text></svg>
+        </button>
         <button class="play-btn" onclick="togglePlay(this,'audio-3')" aria-label="Play episode 3">
           <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
+        </button>
+        <button class="skip-btn" onclick="skipForward('audio-3')" aria-label="Fast forward 10 seconds">
+          <svg viewBox="0 0 24 24"><path d="M12 5V2l5 5-5 5V8c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z"/><text x="16.5" y="15.5" font-size="5.5" font-family="sans-serif" font-weight="bold" fill="currentColor" text-anchor="middle">10</text></svg>
         </button>
         <div class="player-right">
           <div class="progress-bar" onclick="seek(event,'audio-3',this)">
@@ -305,9 +324,15 @@
     <p class="ep-desc">Episode 2 of Hogan's Dynasty Deep Dive — who's missing, who's stepping up, and what it means for your roster.</p>
     <div class="player-wrap">
       <div class="player-controls">
+        <button class="skip-btn" onclick="skipBack('audio-2')" aria-label="Rewind 10 seconds">
+          <svg viewBox="0 0 24 24"><path d="M12 5V2L7 7l5 5V8c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/><text x="7.5" y="15.5" font-size="5.5" font-family="sans-serif" font-weight="bold" fill="currentColor" text-anchor="middle">10</text></svg>
+        </button>
         <button class="play-btn" onclick="togglePlay(this,'audio-2')" aria-label="Play episode 2">
           <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
+        </button>
+        <button class="skip-btn" onclick="skipForward('audio-2')" aria-label="Fast forward 10 seconds">
+          <svg viewBox="0 0 24 24"><path d="M12 5V2l5 5-5 5V8c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z"/><text x="16.5" y="15.5" font-size="5.5" font-family="sans-serif" font-weight="bold" fill="currentColor" text-anchor="middle">10</text></svg>
         </button>
         <div class="player-right">
           <div class="progress-bar" onclick="seek(event,'audio-2',this)">
@@ -344,9 +369,15 @@
     <p class="ep-desc">The inaugural episode of Hogan's Dynasty Deep Dive. We break down the draft, preview the season ahead, and set the tone for dynasty warfare in the modern era.</p>
     <div class="player-wrap">
       <div class="player-controls">
+        <button class="skip-btn" onclick="skipBack('audio-1')" aria-label="Rewind 10 seconds">
+          <svg viewBox="0 0 24 24"><path d="M12 5V2L7 7l5 5V8c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/><text x="7.5" y="15.5" font-size="5.5" font-family="sans-serif" font-weight="bold" fill="currentColor" text-anchor="middle">10</text></svg>
+        </button>
         <button class="play-btn" onclick="togglePlay(this,'audio-1')" aria-label="Play episode 1">
           <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
+        </button>
+        <button class="skip-btn" onclick="skipForward('audio-1')" aria-label="Fast forward 10 seconds">
+          <svg viewBox="0 0 24 24"><path d="M12 5V2l5 5-5 5V8c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z"/><text x="16.5" y="15.5" font-size="5.5" font-family="sans-serif" font-weight="bold" fill="currentColor" text-anchor="middle">10</text></svg>
         </button>
         <div class="player-right">
           <div class="progress-bar" onclick="seek(event,'audio-1',this)">
@@ -427,6 +458,16 @@
       const n = audioId.split('-')[1];
       if (audio.currentTime > 0) localStorage.setItem('pos-ep-' + n, audio.currentTime);
     }
+  }
+
+  function skipBack(audioId) {
+    const audio = document.getElementById(audioId);
+    audio.currentTime = Math.max(0, audio.currentTime - 10);
+  }
+
+  function skipForward(audioId) {
+    const audio = document.getElementById(audioId);
+    if (audio.duration) audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
   }
 
   function setSpeed(audioId, speed, btn) {
